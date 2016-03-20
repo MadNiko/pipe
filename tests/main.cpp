@@ -6,6 +6,46 @@
 #include <rpc.h>
 
 
+enum enum_1
+{
+    enum_1_value_1,
+    enum_1_value_2,
+    enum_1_value_3,
+};
+const char* enum_to_str(enum_1 e)
+{
+    return e == enum_1_value_1 ? "enum_1::value_1" :
+           e == enum_1_value_2 ? "enum_1::value_2" :
+           e == enum_1_value_3 ? "enum_1::value_3" : "<unknown>";
+}
+
+enum class enum_2
+{
+    value_1,
+    value_2,
+    value_3,
+};
+const char* enum_to_str(enum_2 e)
+{
+    return e == enum_2::value_1 ? "enum_2::value_1" :
+           e == enum_2::value_2 ? "enum_2::value_2" :
+           e == enum_2::value_3 ? "enum_2::value_3" : "<unknown>";
+}
+
+enum enum_3 : int
+{
+    enum_3_value_1,
+    enum_3_value_2,
+    enum_3_value_3,
+};
+const char* enum_to_str(enum_3 e)
+{
+    return e == enum_3_value_1 ? "enum_3::value_1" :
+           e == enum_3_value_2 ? "enum_3::value_2" :
+           e == enum_3_value_3 ? "enum_3::value_3" : "<unknown>";
+}
+
+
 //using std_string = std::string;
 //static void zip_std_string(rpc::buffer_bytes& buffer, std_string&& str)
 //{
@@ -81,6 +121,32 @@ int int__int_bool_char(int v1, bool v2, char v3)
 RPC_FUNCTION_DECLARE(int__int_bool_char)
 
 
+enum_1 e1__e2_e3(enum_2 e2, enum_3 e3)
+{
+    std::cout << "e1__e2_e3(";
+    std::cout << enum_to_str(e2);
+    std::cout << ", ";
+    std::cout << enum_to_str(e3);
+    std::cout << ") -> ";
+
+    return enum_1_value_2;
+}
+RPC_FUNCTION_DECLARE(e1__e2_e3)
+
+
+void void__e1_e2_e3(enum_1 e1, enum_2 e2, enum_3 e3)
+{
+    std::cout << "void__e1_e2_e3(";
+    std::cout << enum_to_str(e1);
+    std::cout << ", ";
+    std::cout << enum_to_str(e2);
+    std::cout << ", ";
+    std::cout << enum_to_str(e3);
+    std::cout << ")";
+}
+RPC_FUNCTION_DECLARE(void__e1_e2_e3)
+
+
 void main_server()
 {
     rpc::server rpc_server(L"pipe_channel_name");
@@ -108,6 +174,10 @@ void main_client()
     //std::cout << rpc::invoke::int__string_int(client, std::string("abcdef"), 22) << std::endl;
 
     std::cout << rpc::invoke::int__int_bool_char(client, 33, true, 'X') << std::endl;
+
+    std::cout << enum_to_str(rpc::invoke::e1__e2_e3(client, enum_2::value_3, enum_3_value_1));
+
+    rpc::invoke::void__e1_e2_e3(client, enum_1_value_3, enum_2::value_1, enum_3_value_2);
 }
 
 
