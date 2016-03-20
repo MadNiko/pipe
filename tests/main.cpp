@@ -121,6 +121,15 @@ int int__int_bool_char(int v1, bool v2, char v3)
 RPC_FUNCTION_DECLARE(int__int_bool_char)
 
 
+bool bool__char_e3(enum_3 v2)
+{
+    std::cout << "bool__char_e3(" << enum_to_str(v2) << ") -> ";
+
+    return false;
+}
+RPC_FUNCTION_DECLARE(bool__char_e3)
+
+
 enum_1 e1__e2_e3(enum_2 e2, enum_3 e3)
 {
     std::cout << "e1__e2_e3(";
@@ -143,6 +152,7 @@ void void__e1_e2_e3(enum_1 e1, enum_2 e2, enum_3 e3)
     std::cout << ", ";
     std::cout << enum_to_str(e3);
     std::cout << ")";
+    std::cout << std::endl;
 }
 RPC_FUNCTION_DECLARE(void__e1_e2_e3)
 
@@ -175,7 +185,9 @@ void main_client()
 
     std::cout << rpc::invoke::int__int_bool_char(client, 33, true, 'X') << std::endl;
 
-    std::cout << enum_to_str(rpc::invoke::e1__e2_e3(client, enum_2::value_3, enum_3_value_1));
+    std::cout << rpc::invoke::bool__char_e3(client, enum_3_value_2) << std::endl;
+
+    std::cout << enum_to_str(rpc::invoke::e1__e2_e3(client, enum_2::value_3, enum_3_value_1)) << std::endl;
 
     rpc::invoke::void__e1_e2_e3(client, enum_1_value_3, enum_2::value_1, enum_3_value_2);
 }
