@@ -143,8 +143,8 @@ namespace rpc
             inline result_t \
             func_t(rpc::client& client, args_t&&... args) \
             { \
+                (void)client; \
                 const rpc::buffer_bytes in_buffer(rpc::traits::zip_args(std::forward<args_t>(args)...)); \
-                (void)client; /*return rpc::traits::unzip_result<result_t>(client.invoke(#func_t, in_buffer));*/ \
                 return rpc::traits::unzip_result<result_t>(rpc::processing::func_t(in_buffer.data(), in_buffer.data() + in_buffer.size())); \
             } \
         } \

@@ -75,14 +75,14 @@ inline const rpc::byte* unzip_binary_data(type* value, const rpc::byte* in, cons
 //----------------------------------------------------------------------------------------------------------------------
 template<class value_t>
 static
-typename std::enable_if<(std::is_integral<typename std::decay<value_t>::type>::value && !std::is_same<typename std::decay<value_t>::type, bool>::value), void>::type
+typename std::enable_if<(std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value), void>::type
 zip(buffer_bytes& buffer, value_t&& value)
 {
     zip_binary_data(buffer, &value);
 }
 template<class value_t>
 static
-typename std::enable_if<(std::is_integral<typename std::decay<value_t>::type>::value && !std::is_same<typename std::decay<value_t>::type, bool>::value), const rpc::byte*>::type
+typename std::enable_if<(std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value), const rpc::byte*>::type
 unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 {
     return unzip_binary_data(&value, in, in_end);
@@ -98,7 +98,7 @@ typename std::enable_if<std::is_enum<value_t>::value, void>::type
 zip(buffer_bytes& buffer, value_t&& value)
 {
     using underlying_type = typename std::underlying_type<value_t>::type;
-    const underlying_type tmp_value(value);
+    const underlying_type tmp_value(static_cast<underlying_type>(value));
     zip_binary_data(buffer, &tmp_value);
 }
 template<class value_t>
@@ -109,7 +109,7 @@ unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
     typename std::underlying_type<value_t>::type tmp_value(0);
     const rpc::byte* in_next(unzip_binary_data(&tmp_value, in, in_end));
     if (in_next != nullptr)
-        value = (0 != tmp_value);
+        value = static_cast<value_t>(tmp_value);
     return in_next;
 }
 
@@ -119,7 +119,7 @@ unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 //----------------------------------------------------------------------------------------------------------------------
 template<class value_t>
 static
-typename std::enable_if<std::is_same<typename std::decay<value_t>::type, bool>::value, void>::type
+typename std::enable_if<std::is_same<value_t, bool>::value, void>::type
 zip(buffer_bytes& buffer, value_t&& value)
 {
     const rpc::byte tmp_value(value ? -1 : 0);
@@ -127,7 +127,6 @@ zip(buffer_bytes& buffer, value_t&& value)
 }
 template<class value_t>
 static
-//typename std::enable_if<std::is_same<typename std::decay<value_t>::type, bool>::value, const rpc::byte*>::type
 typename std::enable_if<std::is_same<value_t, bool>::value, const rpc::byte*>::type
 unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 {
