@@ -6,39 +6,39 @@
 #include <rpc.h>
 
 
-//using std_string = std::string;
-//static void zip_std_string(rpc::buffer_bytes& buffer, std_string&& str)
-//{
-//    const rpc::buffer_bytes::size_type size_size(sizeof(std_string::size_type));
-//    const std_string::size_type size_str(str.size());
+using std_string = std::string;
+static void zip_std_string(rpc::buffer_bytes& buffer, std_string&& str)
+{
+    const rpc::buffer_bytes::size_type size_size(sizeof(std_string::size_type));
+    const std_string::size_type size_str(str.size());
 
-//    buffer.reserve(buffer.size() + size_size + (size_str * sizeof(std_string::value_type)));
+    buffer.reserve(buffer.size() + size_size + (size_str * sizeof(std_string::value_type)));
 
-//    rpc::traits::types::zip(buffer, size_size);
-//    for (const std_string::value_type& value : str)
-//    {
-//        rpc::traits::types::zip(buffer, value);
-//    }
-//}
-//static const rpc::byte* unzip_std_string(std_string& str, const rpc::byte* in, const rpc::byte* in_end)
-//{
-//    const rpc::buffer_bytes::size_type size_size(0);
-//    in = rpc::traits::types::unzip(size_size, in, in_end);
-//    if (in == nullptr)
-//        return nullptr;
+    rpc::traits::types::zip(buffer, size_size);
+    for (const std_string::value_type& value : str)
+    {
+        rpc::traits::types::zip(buffer, value);
+    }
+}
+static const rpc::byte* unzip_std_string(std_string& str, const rpc::byte* in, const rpc::byte* in_end)
+{
+    const rpc::buffer_bytes::size_type size_size(0);
+    in = rpc::traits::types::unzip(size_size, in, in_end);
+    if (in == nullptr)
+        return nullptr;
 
-//    str.resize(size_size);
+    str.resize(size_size);
 
-//    for (std_string::value_type& value : str)
-//    {
-//        in = rpc::traits::types::unzip(value, in, in_end);
-//        if (in == nullptr)
-//            return nullptr;
-//    }
+    for (std_string::value_type& value : str)
+    {
+        in = rpc::traits::types::unzip(value, in, in_end);
+        if (in == nullptr)
+            return nullptr;
+    }
 
-//    return in;
-//}
-////RPC_TYPE_DECLARE(std_string, zip_std_string, unzip_std_string)
+    return in;
+}
+//RPC_TYPE_DECLARE(std_string, zip_std_string, unzip_std_string)
 
 
 void void__void()
@@ -105,7 +105,7 @@ void main_client()
 
     std::cout << rpc::invoke::int__void(client) << std::endl;
 
-    //std::cout << rpc::invoke::int__string_int(client, std::string("abcdef"), 22) << std::endl;
+    std::cout << rpc::invoke::int__string_int(client, std::string("abcdef"), 22) << std::endl;
 
     std::cout << rpc::invoke::int__int_bool_char(client, 33, true, 'X') << std::endl;
 }
