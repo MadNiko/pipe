@@ -35,6 +35,9 @@ namespace rpc
 } // namespace rpc
 
 
+/* \brief
+ *
+ */
 #define RPC_TYPE_DECLARE(zip_type, func_zip, func_unzip) \
     \
     namespace rpc \
@@ -43,20 +46,13 @@ namespace rpc
         { \
             namespace types \
             { \
-                template<class value_t> \
-                static \
-                typename std::enable_if<std::is_same<value_t, zip_type>::value, void>::type \
-                zip(buffer_bytes& buffer, zip_type&& value) \
+                static void zip(buffer_bytes& buffer, zip_type&& value) \
                 { \
-                    func_zip(buffer, std::forward<zip_type>(value)); \
+                    ::func_zip(buffer, std::forward<zip_type>(value)); \
                 } \
-                \
-                template<class value_t> \
-                static \
-                typename std::enable_if<std::is_same<value_t, typename std::decay<zip_type>::type>::value, const rpc::byte*>::type \
-                unzip(zip_type& value, const rpc::byte* in, const rpc::byte* in_end) \
+                static const rpc::byte* unzip(zip_type& value, const rpc::byte* in, const rpc::byte* in_end) \
                 { \
-                    return func_unzip(value, in, in_end); \
+                    return ::func_unzip(value, in, in_end); \
                 } \
             } \
         } \
@@ -80,7 +76,7 @@ namespace rpc
             \
             template<class result_t = typename rpc::traits::func_result_t<decltype(::func_t)>, \
                      class tuple_args_t = typename rpc::traits::func_args_t<decltype(::func_t)>> \
-            typename std::enable_if<std::is_void<result_t>::value, rpc::buffer_bytes>::type \
+            std::enable_if_t<std::is_void<result_t>::value, rpc::buffer_bytes> \
             func_t(const rpc::byte* in, const rpc::byte* in_end) \
             { \
                 tuple_args_t tuple_args(rpc::traits::unzip_args<tuple_args_t>(in, in_end)); \
@@ -90,7 +86,7 @@ namespace rpc
             \
             template<class result_t = typename rpc::traits::func_result_t<decltype(::func_t)>, \
                      class tuple_args_t = typename rpc::traits::func_args_t<decltype(::func_t)>> \
-            typename std::enable_if<!std::is_void<result_t>::value, rpc::buffer_bytes>::type \
+            std::enable_if_t<!std::is_void<result_t>::value, rpc::buffer_bytes> \
             func_t(const rpc::byte* in, const rpc::byte* in_end) \
             { \
                 tuple_args_t tuple_args(rpc::traits::unzip_args<tuple_args_t>(in, in_end)); \

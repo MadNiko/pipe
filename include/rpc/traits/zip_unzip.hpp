@@ -27,7 +27,7 @@ namespace impl
     template<typename arg_t>
     inline void zip(buffer_bytes& buffer, arg_t&& arg)
     {
-        rpc::traits::types::zip<arg_t>(buffer, std::forward<arg_t>(arg));
+        rpc::traits::types::zip(buffer, std::forward<arg_t>(arg));
     }
 
     template<class first_arg_t, class... other_args_t>
