@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="1. Public header files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="2. Private header files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="3. Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="3. Source Files\system">
+      <UniqueIdentifier>{be25c679-fc9e-4b3e-8c42-ab512b7fd6dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Public header files\traits">
+      <UniqueIdentifier>{fd1175fe-722c-49ad-b757-f99733c8053c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Private header files\system">
+      <UniqueIdentifier>{4fea0945-99de-471b-a45f-6e4722f9bdb3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\client.cpp">
+      <Filter>3. Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\consts.cpp">
+      <Filter>3. Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server.cpp">
+      <Filter>3. Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\system\pipe_win.cpp">
+      <Filter>3. Source Files\system</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(RpcIncludeDir)rpc.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\defines.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\macro.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\types.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\client.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\server.h">
+      <Filter>1. Public header files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\call_with_tuple_args.h">
+      <Filter>1. Public header files\traits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\built_in_types.h">
+      <Filter>1. Public header files\traits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\zip_unzip.h">
+      <Filter>1. Public header files\traits</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\consts.h">
+      <Filter>2. Private header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\system\pipe.h">
+      <Filter>2. Private header files\system</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <LoadedProps_RpcConfig>True</LoadedProps_RpcConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" Label="UserMacros">
+    <RpcTargetNameSuffix>d</RpcTargetNameSuffix>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" Label="UserMacros">
+    <RpcTargetNameSuffix>
+    </RpcTargetNameSuffix>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <RpcName>rpc</RpcName>
+    <RpcIncludeDir>$(RpcProjectDir)..\..\..\include\</RpcIncludeDir>
+    <RpcOutputDir>$(RpcProjectDir)..\..\..\..\$(SolutionName)-output-$(Configuration)-$(Platform)\</RpcOutputDir>
+    <RpcLibDir>$(RpcOutputDir)lib\</RpcLibDir>
+    <RpcBinDir>$(RpcOutputDir)bin\</RpcBinDir>
+    <RpcBuildDir>$(RpcOutputDir)build\</RpcBuildDir>
+    <RpcTargetName>$(RpcName)$(RpcTargetNameSuffix)</RpcTargetName>
+    <RpcConfigurationType>DynamicLibrary</RpcConfigurationType>
+    <!-- StaticLibrary | DynamicLibrary -->
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup />
+  <Import Project="$(SolutionDir)\rpc_custom_config.props" Condition="exists('$(SolutionDir)\rpc_custom_config.props')" Label="LocalAppDataPlatform" />
+</Project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ImportGroup Label="PropertySheets">    
+    <Import Project="$(RpcProjectDir)rpc_config.props" Condition="'$(LoadedProps_RpcConfig)'!='True'" />
+  </ImportGroup>
+
+  <PropertyGroup Label="UserMacros">
+    <LoadedProps_RpcInclude>True</LoadedProps_RpcInclude>
+  </PropertyGroup>
+
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(RpcIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  
+  <ItemGroup>
+    <ClInclude Include="$(RpcIncludeDir)rpc.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\defines.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\macro.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\types.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\client.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\server.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\zip_unzip.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\built_in_types.h" />
+    <ClInclude Include="$(RpcIncludeDir)rpc\traits\call_with_tuple_args.h" />
+  </ItemGroup>
+
+</Project>
