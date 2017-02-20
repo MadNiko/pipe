@@ -4,6 +4,8 @@
 
 
 #include <tuple>
+#include <vector>
+#include <string>
 #include <cassert>
 #include <algorithm>
 #include <type_traits>
@@ -14,13 +16,12 @@
 namespace rpc { namespace traits
 {
 
-
 namespace types
 {
 
 
 template<class value_t>
-using func_zip_t = void(buffer_bytes& buffer, value_t&& value);
+using func_zip_t = void(rpc::buffer_bytes& buffer, value_t&& value);
 
 template<class value_t>
 using func_unzip_t = const rpc::byte*(value_t& value, const rpc::byte* in, const rpc::byte* in_end);
@@ -75,14 +76,14 @@ inline const rpc::byte* unzip_binary_data(type* value, const rpc::byte* in, cons
 //----------------------------------------------------------------------------------------------------------------------
 template<class value_t>
 static
-typename std::enable_if<(std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value), void>::type
+std::enable_if_t<std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value>
 zip(buffer_bytes& buffer, value_t&& value)
 {
     zip_binary_data(buffer, &value);
 }
 template<class value_t>
 static
-typename std::enable_if<(std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value), const rpc::byte*>::type
+std::enable_if_t<std::is_integral<value_t>::value && !std::is_same<value_t, bool>::value, const rpc::byte*>
 unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 {
     return unzip_binary_data(&value, in, in_end);
@@ -94,7 +95,7 @@ unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 //----------------------------------------------------------------------------------------------------------------------
 template<class value_t>
 static
-typename std::enable_if<std::is_enum<value_t>::value, void>::type
+std::enable_if_t<std::is_enum<value_t>::value>
 zip(buffer_bytes& buffer, value_t&& value)
 {
     using underlying_type = typename std::underlying_type<value_t>::type;
@@ -103,7 +104,7 @@ zip(buffer_bytes& buffer, value_t&& value)
 }
 template<class value_t>
 static
-typename std::enable_if<std::is_enum<value_t>::value, const rpc::byte*>::type
+std::enable_if_t<std::is_enum<value_t>::value, const rpc::byte*>
 unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
 {
     typename std::underlying_type<value_t>::type tmp_value(0);
@@ -166,18 +167,12 @@ static const rpc::byte* unzip(vector& value, const rpc::byte* in, const rpc::byt
 //======================================================================================================================
 // bool
 //----------------------------------------------------------------------------------------------------------------------
-template<class value_t>
-static
-typename std::enable_if<std::is_same<value_t, bool>::value, void>::type
-zip(buffer_bytes& buffer, value_t&& value)
+static void zip(buffer_bytes& buffer, bool&& value)
 {
     const rpc::byte tmp_value(value ? -1 : 0);
     zip_binary_data(buffer, &tmp_value);
 }
-template<class value_t>
-static
-typename std::enable_if<std::is_same<value_t, bool>::value, const rpc::byte*>::type
-unzip(value_t& value, const rpc::byte* in, const rpc::byte* in_end)
+static const rpc::byte* unzip(bool& value, const rpc::byte* in, const rpc::byte* in_end)
 {
     rpc::byte tmp_value(0);
     const rpc::byte* in_next(unzip_binary_data(&tmp_value, in, in_end));
